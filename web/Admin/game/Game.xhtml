@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template/template.xhtml">
+
+    <ui:define name="content">
+
+        <h:form id="game-form">
+            <div class="container">
+
+                <div class="form-group">
+                    <label>Başlık</label>
+                    <h:inputText value="#{gameController.game.baslik}"/><br/>
+                </div>
+                <div class="form-group">
+                    <label>Açıklama</label>
+                    <h:inputText value="#{gameController.game.aciklama}"/><br/>
+                </div>
+                <div class="form-group">
+                    <label>Tarih</label>
+                    <h:inputText value="#{gameController.game.vizyon_tarihi}"/><br/>
+                </div>
+
+                <div class ="form-group">
+                    <label for ="CategorySec">Category Sec</label>
+                    <h:selectOneMenu styleClass="custom-select" id="CategorySec" value="#{gameController.game.category}" converter="categoryConverter">
+                        <f:selectItems value="#{gameController.categorylist}" var="Category" itemValue="#{Category}" itemLabel="#{Category.name}" />
+                    </h:selectOneMenu>
+                </div>
+                <div class ="form-group">
+                    <label for ="PlatformGir">Platform Sec</label>
+                    <h:selectManyListbox id="PlatformGir" value ="#{gameController.game.game_platform}" styleClass="custom-select" converter="platformConverter">
+                        <f:selectItems value="#{gameController.platformlist}" var="Platform" itemValue="#{Platform}" itemLabel="#{Platform.platform_name}" />
+                    </h:selectManyListbox>
+                </div>
+                <div class ="form-group">
+                    <label for ="ProducerSec">Producer Sec</label>
+                    <h:selectOneMenu styleClass="custom-select" id="ProducerSec" value="#{gameController.game.producer}" converter="producerConverter">
+                        <f:selectItems value="#{gameController.producerlist}" var="Producer" itemValue="#{Producer}" itemLabel="#{Producer.producer_name}" />
+                    </h:selectOneMenu>
+                </div>
+                <div class ="form-group">
+                    <label for ="DosyaSec">Dosya Sec</label>
+                    <h:selectOneMenu styleClass="custom-select" id="DosyaSec" value="#{gameController.game.dosya}" converter="dosyaConverter">
+                        <f:selectItems value="#{gameController.dosyalist}" var="Dosya" itemValue="#{Dosya}" itemLabel="#{Dosya.dosya_ismi}" />
+                    </h:selectOneMenu>
+                </div>
+
+                <h:commandButton styleClass="btn btn-dark" value="Ekle" action="#{gameController.create()}">
+                    <f:ajax  execute="game-form" render="game-form"   />
+                </h:commandButton>
+
+                <h:commandButton value="Update" action="#{gameController.update()}">
+                    <f:ajax  execute="game-form" render="game-form"   />
+                </h:commandButton>
+                <hr/>
+                <div class="btn-group">
+                    <h:commandButton action="#{gameController.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
+                    <h:commandButton action="#{gameController.next()}" value="Next" styleClass="btn btn-outline-dark"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Arama Terimi : </label>
+                    <h:inputText value="#{gameController.terim}"/>
+                </div>
+
+                <h:dataTable styleClass="table table-striped" value="#{gameController.read}" var="game">
+                    <h:column>
+                        <f:facet name="header"> Game Ismi </f:facet>
+                            #{game.baslik}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"> aciklama </f:facet>
+                            #{game.aciklama}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"> vizyon_tarihi </f:facet>
+                            #{game.vizyon_tarihi}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"> category </f:facet>
+                            #{game.category.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"> producer </f:facet>
+                            #{game.producer.producer_name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"> Platform</f:facet>
+                        <ul>
+                            <ui:repeat value="#{game.game_platform}" var="plt">
+                                <li>#{plt.platform_name}</li>
+                            </ui:repeat>
+                        </ul>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"> Resim</f:facet>
+                        <h:graphicImage width="100"  value="/dosyalar/#{game.dosya.dosya_ismi}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">ADMINISTRATOR</f:facet>
+                        <h:commandButton styleClass="btn btn-dark" action="#{gameController.updateForm(game)}" value="UPDATE">
+                            <f:ajax  execute="@this" render="game-form"/>
+                        </h:commandButton>
+                        <h:commandButton styleClass="btn btn-danger" action="#{gameController.deleteForm(game)}" value="DELETE"/>
+
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
