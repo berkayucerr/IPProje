@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/template.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define name="content">
+        <div class="container">
+
+            <h:form id="users-form">
+                <div class="form-group">
+                    <label>ad: </label>
+                    <h:inputText value="#{userController.user.ad}"/><br/>
+                </div>
+                <div class="form-group">
+                    <label>soyad:  </label>
+                    <h:inputText value="#{userController.user.soyad}"/><br/>
+                </div>
+                <div class="form-group">
+                    <label>mail:  </label>
+                    <h:inputText value="#{userController.user.mail}"/><br/>
+                </div>
+                <div class="form-group">
+                    <label>sifre:  </label>
+                    <h:inputText value="#{userController.user.sifre}"/><br/>
+                </div>
+                <div class="form-group">
+                    <label>admin: (1-0) </label>
+                    <h:inputText value="#{userController.user.admin}"/><br/>
+                </div>
+
+                <h:commandButton value="Ekle" action="#{userController.create()}">
+                    <f:ajax  execute="users-form" render="users-form"/>
+                </h:commandButton>
+                <h:commandButton value="Update" action="#{userController.update()}">
+                    <f:ajax  execute="users-form" render="users-form"/>
+                </h:commandButton>
+                <hr/>
+                <div class="btn-group">
+                    <h:commandButton action="#{userController.ileri()}" value="Previous" styleClass="btn btn-outline-dark"/>
+                    <h:commandButton action="#{userController.geri()}" value="Next" styleClass="btn btn-outline-dark"/>
+                </div>
+                <br/><br/>
+                <div class="form-group">
+                    <label>Arama Terimi : </label>
+                    <h:inputText value="#{userController.bul}"/>
+                </div>
+
+                <h:dataTable value="#{userController.userlist}" var="k">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                            #{k.user_id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                            #{k.ad}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Password</f:facet>
+                            #{k.soyad}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Password</f:facet>
+                            #{k.mail}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Admin</f:facet>
+                            #{k.getAdmin()}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">ADMINISTRATOR</f:facet>
+                        <h:commandButton action="#{userController.updateForm(k)}" value="UPDATE">
+                            <f:ajax  execute="@this" render="users-form"/>
+                        </h:commandButton>
+                        <h:commandButton action="#{userController.deleteForm(k)}" value="DELETE"/>
+                    </h:column>
+                </h:dataTable>
+
+
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+
