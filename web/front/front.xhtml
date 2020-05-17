@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <h:outputStylesheet library ="css" name="bootstrap.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <title>Facelet Title</title>
+
+    </h:head>
+    <h:body>
+
+        <div class="container">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <h:link outcome="front.xhtml">
+                            <h:graphicImage value="/logo.png" width="200" /> 
+                        </h:link>
+                        <li class="nav-item active">
+                            <h:link class="nav-link" value="Anasayfa" outcome="/front/front.xhtml"/>
+                        </li>
+                        <li class="nav-item active">
+                            <h:link class="nav-link" value="Kategoriler" outcome="/front/kategoriyegore.xhtml"/>
+                        </li>
+                        <li class="nav-item active">
+                            <h:link  class="nav-link" value="Çıkış yap" outcome="/logout.xhtml"/>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+        </div>
+
+    </h:body>
+</html>
+

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library ="css" name="bootstrap.css"/>
+        <h:outputScript library="js" name="bootstrap.js"/>
+        <style>
+            .arkaplan{
+                background-color: #4f4f4f;
+            }
+
+        </style>
+    </h:head>
+    <h:body>
+
+        <h:form>
+
+            <div class="container">
+
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+           
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active">
+                                <h:link class="nav-link" value="Anasayfa" outcome="/front/front.xhtml"/>
+                            </li>
+                            <li class="nav-item active">
+                                <h:link class="nav-link" value="User" outcome="/Admin/user/users.xhtml"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:link class="nav-link" value="Comment" outcome="/Admin/comment/comments.xhtml"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:link class="nav-link" value="Platform" outcome="/Admin/platform/platform"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:link class="nav-link" value="Category" outcome="/Admin/category/categories"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:link class="nav-link" value="Producer" outcome="/Admin/producer/producers"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:link class="nav-link" value="Score" outcome="/Admin/score/scores"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:link class="nav-link" value="Game" outcome="/Admin/game/Game"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:link class="nav-link" value="Dosya" outcome="/Admin/panel/dosya"/>
+                            </li>
+                            <li class="nav-item">
+                                <h:link class="nav-link" value="Çıkış" outcome="/logout"/>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+        </h:form>
+        <ui:insert name="content">
+            default empty content
+        </ui:insert>
+
+    </h:body>
+</html>
+
