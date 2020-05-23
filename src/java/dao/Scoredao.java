@@ -17,7 +17,7 @@ public class Scoredao extends DBConnection {
     public void create(Score score) {
         try {
             PreparedStatement pst = connect().prepareStatement("insert into score (game_score) values(?)");
-            pst.setInt(1, score.getScore());
+            pst.setString(1, score.getScore());
             pst.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -39,7 +39,7 @@ public class Scoredao extends DBConnection {
 
         try {
             PreparedStatement pst = connect().prepareStatement("update score set game_score=? where score_id=?");
-            pst.setInt(1, score.getScore());
+            pst.setString(1, score.getScore());
             pst.setInt(2, score.getScore_id());
             pst.executeUpdate();
         } catch (SQLException ex) {
@@ -53,7 +53,7 @@ public class Scoredao extends DBConnection {
             Statement st = this.connect().createStatement();
             ResultSet rs = st.executeQuery("select * from score order by score_id asc");
             while(rs.next()){
-                Score temp=new Score(rs.getInt("score_id"),rs.getInt("game_score"));
+                Score temp=new Score(rs.getInt("score_id"),rs.getString("game_score"));
                 list.add(temp);
             }
         }catch(Exception e){
@@ -84,7 +84,7 @@ public class Scoredao extends DBConnection {
             }
             ResultSet rs = pst.executeQuery();
             while(rs.next()){
-                Score temp=new Score(rs.getInt("score_id"),rs.getInt("game_score"));
+                Score temp=new Score(rs.getInt("score_id"),rs.getString("game_score"));
                 list.add(temp);
             }
         }catch(Exception e){
@@ -92,18 +92,29 @@ public class Scoredao extends DBConnection {
         }
          return list;
     }
-   public int count() {
+   
+   public int count(String arananTerim) {
         int count=0;
         try {
-            Statement st = this.connect().createStatement();
-            ResultSet rs = st.executeQuery("select count(score_id) as score_count from score");
+            String query = "select count(score_id) as score_count from score ";
+            if (arananTerim != null) {
+                query += "where game_score like ?";
+            }
+            PreparedStatement pst = connect().prepareStatement(query);
+
+             if (arananTerim != null) {
+                pst.setString(1, "%" + arananTerim + "%");
+            }
+            ResultSet rs = pst.executeQuery();
             rs.next();
-            count=rs.getInt("score_count");
+            count = rs.getInt("score_count");
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return count;
     }
+   
    public Score scoreBul(int id) {
         Score k = null;
         try {
@@ -112,7 +123,7 @@ public class Scoredao extends DBConnection {
             rs.next();
             k = new Score();
             k.setScore_id(rs.getInt("score_id"));
-            k.setScore(rs.getInt("game_score"));
+            k.setScore(rs.getString("game_score"));
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

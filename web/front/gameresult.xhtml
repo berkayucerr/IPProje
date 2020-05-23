@@ -25,17 +25,27 @@
                             <h:link class="nav-link" value="Kategoriler" outcome="/front/kategoriyegore.xhtml"/>
                         </li>
                         <li class="nav-item active">
-                            <h:link  class="nav-link" value="Çıkış yap" outcome="/logout.xhtml"/>
+                            <h:link rendered="#{loginController.user.yetki.yetki_id==1}" class="nav-link" value="Admin Panel" outcome="/Admin/user/users.xhtml"/>
+                        </li>
+                        <li class="nav-item active">
+                            <h:link rendered="#{loginController.user.ad!=null}"  class="nav-link" value="Çıkış yap" outcome="/logout.xhtml"/>
+                        </li>
+                        <li class="nav-item active">
+                            <h:link rendered="#{loginController.user.ad==null}" class="nav-link" value="giris yap-kayit ol" outcome="/index.xhtml"/>
                         </li>
                     </ul>
                 </div>
             </nav>
 
-            <h:form>
+            <h:form id="oyunlar">
                 <div class="btn-group">
-                    <h:commandButton action="#{categoryController.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
+                    <h:commandButton action="#{categoryController.previous()}" value="Previous" styleClass="btn btn-dark">
+                        <f:ajax  execute="oyunlar" render="oyunlar"/>
+                    </h:commandButton>
 
-                    <h:commandButton action="#{categoryController.next()}" value="Next" styleClass="btn btn-outline-dark"/>
+                    <h:commandButton action="#{categoryController.next()}" value="Next" styleClass="btn btn-dark">
+                        <f:ajax  execute="oyunlar" render="oyunlar"/>
+                    </h:commandButton>
                 </div>
 
                 <h:dataTable styleClass="table table-striped" value="#{gameController.categoryranking}" var="game">
@@ -72,7 +82,7 @@
                         </ul>
                     </h:column>
                     <h:column>
-                        <h:commandButton value="Yorumlar" action="#{gameController.oyunsec(game)}"/>
+                        <h:commandButton styleClass="btn btn-light" value="Yorumlar" action="#{gameController.oyunsec(game)}"/>
                     </h:column>
                 </h:dataTable>
             </h:form>

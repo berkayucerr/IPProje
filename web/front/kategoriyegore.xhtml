@@ -23,7 +23,13 @@
                             <h:link class="nav-link" value="Kategoriler" outcome="/front/kategoriyegore.xhtml"/>
                         </li>
                         <li class="nav-item active">
-                            <h:link  class="nav-link" value="Çıkış yap" outcome="/logout.xhtml"/>
+                            <h:link rendered="#{loginController.user.yetki.yetki_id==1}" class="nav-link" value="Admin Panel" outcome="/Admin/user/users.xhtml"/>
+                        </li>
+                        <li class="nav-item active">
+                            <h:link rendered="#{loginController.user.ad!=null}"  class="nav-link" value="Çıkış yap" outcome="/logout.xhtml"/>
+                        </li>
+                        <li class="nav-item active">
+                            <h:link rendered="#{loginController.user.ad==null}" class="nav-link" value="giris yap-kayit ol" outcome="/index.xhtml"/>
                         </li>
                     </ul>
                 </div>
@@ -36,7 +42,7 @@
                     <h:selectOneMenu styleClass="custom-select" id="CategorySec" value="#{gameController.game.category}" converter="categoryConverter">
                         <f:selectItems value="#{gameController.categorylist}" var="Category" itemValue="#{Category}" itemLabel="#{Category.name}" />
                     </h:selectOneMenu>
-                    <h:commandButton action="gameresult.xhtml" value="devam"/>
+                    <h:commandButton styleClass="btn btn-light" action="gameresult.xhtml" value="devam"/>
                 </div>
             </h:form>
         </div>

@@ -31,7 +31,7 @@ public class LoginFilter implements Filter {
                 chain.doFilter(request, response);
             }
         } else {
-            if (k.getAdmin() == 0) {
+            if (k.getYetki().getYetki_id()==0) {
                 if (url.contains("Admin")) {
                     res.sendRedirect(req.getContextPath() + "/front/front.xhtml");
                 } else if (url.contains("logout")) {

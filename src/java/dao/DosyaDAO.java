@@ -74,13 +74,22 @@ public class DosyaDAO extends DBConnection{
         
         return dosyaList;
     }
-      public int count() {
+      public int count(String arananTerim) {
         int count=0;
         try {
-            Statement st = this.connect().createStatement();
-            ResultSet rs = st.executeQuery("select count(dosya_id) as dosya_count from dosya");
+            String query = "select count(dosya_id) as dosya_count from dosya ";
+            if (arananTerim != null) {
+                query += "where dosya_ismi like ?";
+            }
+            PreparedStatement pst = connect().prepareStatement(query);
+
+             if (arananTerim != null) {
+                pst.setString(1, "%" + arananTerim + "%");
+            }
+            ResultSet rs = pst.executeQuery();
             rs.next();
-            count=rs.getInt("dosya_count");
+            count = rs.getInt("dosya_count");
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

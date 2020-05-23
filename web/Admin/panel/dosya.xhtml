@@ -9,16 +9,23 @@
         <div class="col-md-8">
             <div class="container">
                 <br/>
-                <h:form>
+                <h:form id="dosya-form">
                     <div class="btn-group">
-                        <h:commandButton action="#{dosyaController.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
-                        <h:commandButton action="#{dosyaController.next()}" value="Next" styleClass="btn btn-outline-dark"/>
+                        <h:commandButton styleClass="btn btn-dark" action="#{dosyaController.previous()}" value="Previous" >
+                        <f:ajax  execute="dosya-form" render="dosya-form"/>
+                        </h:commandButton>
+                        <h:commandButton styleClass="btn btn-dark" action="#{dosyaController.next()}" value="Next"> 
+                        <f:ajax  execute="dosya-form" render="dosya-form"/>
+                        </h:commandButton>
                     </div>
                     <hr/>
                     <div class="form-group">
                         <label>Arama Terimi : </label>
                         <h:inputText value="#{dosyaController.terim}"/>
                     </div>
+                    <h:commandButton action="#{dosyaController.ara()}" value="Ara">
+                        <f:ajax  execute="dosya-form" render="dosya-form"/>
+                    </h:commandButton>
                     <h:dataTable styleClass="table table-striped" value="#{dosyaController.dosyaList}" var="d">
 
                         <h:column>

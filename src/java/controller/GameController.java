@@ -44,9 +44,12 @@ public class GameController implements Serializable {
     @Inject
     private CommentController cc;
     
+    public void ara(){
+        this.setPage(1);
+    }
     public void create() {
         this.getDao().create(entity);
-        this.entity = new Game();
+        this.clearForm();
     }
 
     public void updateForm(Game u) {
@@ -55,11 +58,12 @@ public class GameController implements Serializable {
 
     public String update() {
         this.getDao().update(entity);
+        this.clearForm();
         return "/Admin/game/Game";
     }
 
     public List<Game> getRead() {
-        return this.getDao().read(terim,page, pageSize);
+        return this.getDao().read(this.getTerim(),page, pageSize);
     }
 
     public List<Comment> getCommentList() {
@@ -80,7 +84,7 @@ public class GameController implements Serializable {
 
     public String delete() {
         this.getDao().delete(this.entity);
-        this.entity = new Game();
+        this.clearForm();
         return "/Admin/game/Game.xhtml";
     }
     
@@ -128,7 +132,7 @@ public class GameController implements Serializable {
     }
 
     public int getPageCount() {
-        this.pageCount = (int) Math.ceil(this.getDao().count() / (double) pageSize);
+        this.pageCount = (int) Math.ceil(this.getDao().count(this.getTerim()) / (double) pageSize);
         return pageCount;
     }
 
@@ -139,7 +143,6 @@ public class GameController implements Serializable {
     public CommentController getCc() {
         return cc;
     }
-
     public void setCc(CommentController cc) {
         this.cc = cc;
     }
@@ -299,9 +302,7 @@ public class GameController implements Serializable {
         this.dao = dao;
     }
 
-    public String deleteform() {
-        return "/panel/onayla/filmOnayla";
-    }
+    
 
     public Game getFilm() {
         if (this.entity == null) {

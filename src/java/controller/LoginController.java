@@ -20,7 +20,7 @@ public class LoginController implements Serializable {
         if (this.user != null) {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("valid_user", this.user);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Hoşgeldiniz" + " " + user.getAd() + " " + user.getSoyad()));
-            if (user.getAdmin() == 1) {
+            if (user.getYetki().getYetki_id()==1) {
                 return "/Admin/user/users.xhtml";
             }
             return "/front/front.xhtml";

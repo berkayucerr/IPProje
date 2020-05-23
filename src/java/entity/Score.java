@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Score {
     private int score_id;
-    private int score;
+    private String score;
     
     public Score() {
     
@@ -18,15 +18,15 @@ public class Score {
         this.score_id = score_id;
     }
 
-    public int getScore() {
+    public String getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(String score) {
         this.score = score;
     }
 
-    public Score(int score_id, int score) {
+    public Score(int score_id, String score) {
         this.score_id = score_id;
         this.score = score;
     }

@@ -7,10 +7,8 @@
                 template="/template/template.xhtml">
 
     <ui:define name="content">
-
-        <h:form id="game-form">
-            <div class="container">
-
+        <div class="container">
+            <h:form id="select-game">
                 <div class="form-group">
                     <label>Başlık</label>
                     <h:inputText value="#{gameController.game.baslik}"/><br/>
@@ -48,25 +46,35 @@
                         <f:selectItems value="#{gameController.dosyalist}" var="Dosya" itemValue="#{Dosya}" itemLabel="#{Dosya.dosya_ismi}" />
                     </h:selectOneMenu>
                 </div>
-
-                <h:commandButton styleClass="btn btn-dark" value="Ekle" action="#{gameController.create()}">
-                    <f:ajax  execute="game-form" render="game-form"   />
+                <h:commandButton styleClass="btn btn-dark" value="Create" action="#{gameController.create()}">
+                    <f:ajax  execute="select-game" render="game-form select-game"/>
                 </h:commandButton>
 
                 <h:commandButton value="Update" action="#{gameController.update()}">
-                    <f:ajax  execute="game-form" render="game-form"   />
+                    <f:ajax  execute="select-game" render="game-form select-game"/>
                 </h:commandButton>
                 <hr/>
-                <div class="btn-group">
-                    <h:commandButton action="#{gameController.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
-                    <h:commandButton action="#{gameController.next()}" value="Next" styleClass="btn btn-outline-dark"/>
-                </div>
+            </h:form>
+        </div>
 
+        <div class="container">
+            <h:form id="game-form">
+                <div class="btn-group">
+                    <h:commandButton action="#{gameController.previous()}" value="Previous" styleClass="btn btn-dark">
+                        <f:ajax  execute="game-form" render="game-form"/>
+                    </h:commandButton>
+                    <h:commandButton action="#{gameController.next()}" value="Next" styleClass="btn btn-dark">
+                        <f:ajax  execute="game-form" render="game-form"/>
+                    </h:commandButton>
+                </div>
+                <hr/>
                 <div class="form-group">
                     <label>Arama Terimi : </label>
                     <h:inputText value="#{gameController.terim}"/>
                 </div>
-
+                <h:commandButton styleClass="btn btn-light" action="#{gameController.ara()}" value="Ara">
+                    <f:ajax  execute="game-form" render="game-form"/>
+                </h:commandButton>
                 <h:dataTable styleClass="table table-striped" value="#{gameController.read}" var="game">
                     <h:column>
                         <f:facet name="header"> Game Ismi </f:facet>
@@ -101,16 +109,17 @@
                         <h:graphicImage width="100"  value="/dosyalar/#{game.dosya.dosya_ismi}"/>
                     </h:column>
                     <h:column>
-                        <f:facet name="header">ADMINISTRATOR</f:facet>
-                        <h:commandButton styleClass="btn btn-dark" action="#{gameController.updateForm(game)}" value="UPDATE">
-                            <f:ajax  execute="@this" render="game-form"/>
+                        <f:facet name="header">ADMINISTRATION</f:facet>
+                        <h:commandButton styleClass="btn btn-light" action="#{gameController.updateForm(game)}" value="UPDATE">
+                            <f:ajax  execute="@this" render="select-game"/>
                         </h:commandButton>
                         <h:commandButton styleClass="btn btn-danger" action="#{gameController.deleteForm(game)}" value="DELETE"/>
 
                     </h:column>
                 </h:dataTable>
-            </div>
-        </h:form>
+
+            </h:form>
+        </div>
     </ui:define>
 
 </ui:composition>

@@ -9,26 +9,39 @@
     <ui:define name="content">
 
         <div class="container">
-
-            <h:form id="platform_form">
-
-                <h:inputText value="#{platformController.entity.platform_name}"/><br/>
-                <h:commandButton styleClass="btn btn-dark" value="Ekle" action="#{platformController.create()}">
-                    <f:ajax  execute="platform_form" render="platform_form"/>
+            <h:form id="select-platform">
+                <div class="form-group">
+                    <label>Platform name :</label>
+                    <h:inputText value="#{platformController.entity.platform_name}"/>
+                </div>
+                <hr/>
+                <h:commandButton styleClass="btn btn-dark" value="Create" action="#{platformController.create()}">
+                    <f:ajax  execute="select-platform" render="platform-form select-platform"/>
                 </h:commandButton>
-                <h:commandButton value="Update" action="#{platformController.update()}">
-                    <f:ajax  execute="platform_form" render="platform_form"/>
+                <h:commandButton styleClass="btn btn-light" value="Update" action="#{platformController.update()}">
+                    <f:ajax  execute="select-platform" render="platform-form select-platform"/>
                 </h:commandButton>
+                <hr/>
+            </h:form>
+
+            <h:form id="platform-form">
+                <div class="btn-group">
+                    <h:commandButton action="#{platformController.previous()}" value="Previous" styleClass="btn btn-dark">
+                        <f:ajax  execute="platform-form" render="platform-form"/>
+                    </h:commandButton>
+                    <h:commandButton action="#{platformController.next()}" value="Next" styleClass="btn btn-dark">
+                        <f:ajax  execute="platform-form" render="platform-form"/>
+                    </h:commandButton>
+                </div>
                 <hr/>
                 <div class="form-group">
                     <label>Arama Terimi : </label>
                     <h:inputText value="#{platformController.terim}"/>
                 </div>
-                <div class="btn-group">
-                    <h:commandButton action="#{platformController.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
-                    <h:commandButton action="#{platformController.next()}" value="Next" styleClass="btn btn-outline-dark"/>
-                </div>
-
+                <h:commandButton action="#{platformController.ara()}" value="Ara">
+                    <f:ajax  execute="platform-form" render="platform-form"/>
+                </h:commandButton>
+                <hr/>
                 <h:dataTable value="#{platformController.read}" var="k">
                     <h:column>
                         <f:facet name="header">ID</f:facet>
@@ -42,11 +55,10 @@
 
                     <h:column>
                         <f:facet name="header">ADMINISTRATOR</f:facet>
-                        <h:commandButton action="#{platformController.updateForm(k)}" value="UPDATE">
-                            <f:ajax  execute="@this" render="platform_form"   />
+                        <h:commandButton styleClass="btn btn-light" action="#{platformController.updateForm(k)}" value="UPDATE">
+                            <f:ajax  execute="@this" render="select-platform"/>
                         </h:commandButton>
-                        <h:commandButton action="#{platformController.deleteForm(k)}" value="DELETE"/>
-
+                        <h:commandButton styleClass="btn btn-danger" action="#{platformController.deleteForm(k)}" value="DELETE"/>
                     </h:column>
                 </h:dataTable>
             </h:form>

@@ -88,18 +88,28 @@ public class Categorydao extends DBConnection {
         }
          return list;
     }
-      public int count() {
+      public int count(String arananTerim) {
         int count=0;
         try {
-            Statement st = this.connect().createStatement();
-            ResultSet rs = st.executeQuery("select count(category_id) as category_count from category");
+            String query = "select count(category_id) as category_count from category ";
+            if (arananTerim != null) {
+                query += "where category_name like ?";
+            }
+            PreparedStatement pst = connect().prepareStatement(query);
+
+             if (arananTerim != null) {
+                pst.setString(1, "%" + arananTerim + "%");
+            }
+            ResultSet rs = pst.executeQuery();
             rs.next();
-            count=rs.getInt("category_count");
+            count = rs.getInt("category_count");
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return count;
     }
+      
       public Category categoryBul(int id) {
         Category k = null;
         try {

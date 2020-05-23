@@ -6,25 +6,38 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/template/template.xhtml">
     <ui:define name="content">
-
-        <h:form id="score-form">
-            <div class="container">
-                <h:inputText value="#{scoreController.entity.score}"/>
-                <h:commandButton action="#{scoreController.create()}" value="Create">
-                    <f:ajax  execute="score-form" render="score-form"/>
+        <div class="container">
+            <h:form id="select-score">
+                <div class="form-group">
+                    <label>Score :</label>
+                    <h:inputText value="#{scoreController.entity.score}"/>
+                </div><hr/>
+                <h:commandButton styleClass="btn btn-dark" action="#{scoreController.create()}" value="Create">
+                    <f:ajax  execute="select-score" render="score-form select-score"/>
                 </h:commandButton>
-                <h:commandButton action="#{scoreController.update()}" value="Update">
-                    <f:ajax  execute="score-form" render="score-form"   />
+                <h:commandButton styleClass="btn btn-light" action="#{scoreController.update()}" value="Update">
+                    <f:ajax  execute="select-score" render="score-form select-score"/>
                 </h:commandButton>
                 <hr/>
+            </h:form>
+            <h:form id="score-form">
                 <div class="btn-group">
-                    <h:commandButton action="#{scoreController.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
-                    <h:commandButton action="#{scoreController.next()}" value="Next" styleClass="btn btn-outline-dark"/>
+                    <h:commandButton action="#{scoreController.previous()}" value="Previous" styleClass="btn btn-dark">
+                        <f:ajax  execute="score-form" render="score-form"/>
+                    </h:commandButton>
+                    <h:commandButton action="#{scoreController.next()}" value="Next" styleClass="btn btn-dark">
+                        <f:ajax  execute="score-form" render="score-form"/>
+                    </h:commandButton>
                 </div>
+                <hr/>
                 <div class="form-group">
                     <label>Arama Terimi : </label>
                     <h:inputText value="#{scoreController.terim}"/>
                 </div>
+                <h:commandButton action="#{scoreController.ara()}" value="Ara">
+                    <f:ajax  execute="score-form" render="score-form"/>
+                </h:commandButton>
+                <hr/>
                 <h:dataTable value="#{scoreController.read}" var="k">
                     <h:column>
                         <f:facet name="header">ID</f:facet>
@@ -37,14 +50,15 @@
 
                     <h:column>
                         <f:facet name="header">ADMINISTRATOR</f:facet>
-                        <h:commandButton action="#{scoreController.updateForm(k)}" value="UPDATE">
-                            <f:ajax  execute="@this" render="score-form"   />
+                        <h:commandButton styleClass="btn btn-light" action="#{scoreController.updateForm(k)}" value="UPDATE">
+                            <f:ajax  execute="@this" render="select-score"/>
                         </h:commandButton>
-                        <h:commandButton action="#{scoreController.deleteForm(k)}" value="DELETE"/>
+                        <h:commandButton styleClass="btn btn-danger" action="#{scoreController.deleteForm(k)}" value="DELETE"/>
                     </h:column>
                 </h:dataTable>
-            </div>
-        </h:form>
+
+            </h:form>
+        </div>
     </ui:define>
 </ui:composition>
 

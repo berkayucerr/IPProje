@@ -101,13 +101,22 @@ public class Commentdao extends DBConnection {
         return list;
     }
 
-    public int count() {
-        int count = 0;
+    public int count(String arananTerim) {
+        int count=0;
         try {
-            Statement st = this.connect().createStatement();
-            ResultSet rs = st.executeQuery("select count(comment_id) as comment_count from comments");
+            String query = "select count(comment_id) as comment_count from comments ";
+            if (arananTerim != null) {
+                query += "where comment like ?";
+            }
+            PreparedStatement pst = connect().prepareStatement(query);
+
+             if (arananTerim != null) {
+                pst.setString(1, "%" + arananTerim + "%");
+            }
+            ResultSet rs = pst.executeQuery();
             rs.next();
             count = rs.getInt("comment_count");
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -122,7 +131,7 @@ public class Commentdao extends DBConnection {
             rs.next();
             k = new Score();
             k.setScore_id(rs.getInt("score_id"));
-            k.setScore(rs.getInt("game_score"));
+            k.setScore(rs.getString("game_score"));
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

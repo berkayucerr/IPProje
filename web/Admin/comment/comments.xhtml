@@ -9,30 +9,44 @@
     <ui:define name="content">
         <div class="container">
 
-            <h:form id="comment-form">
-
-                <h:inputText value="#{commentController.entity.comment}"/>
-
+            <h:form id="select-comment">
+                <div class="form-group">
+                    <label>Comment :</label>
+                    <h:inputText value="#{commentController.entity.comment}"/>
+                </div>
+                <hr/>
                 <div class ="form-group">
                     <label for ="ScoreSec">Score Sec</label>
                     <h:selectOneMenu styleClass="custom-select" id="ScoreSec" value="#{commentController.entity.score}" converter="scoreConverter">
                         <f:selectItems value="#{commentController.scorelist}" var="Score" itemValue="#{Score}" itemLabel="#{Score.score}" />
                     </h:selectOneMenu>
                 </div>
+                <hr/>
                 <h:commandButton value="Update" action="#{commentController.update()}">
-                    <f:ajax  execute="comment-form" render="comment-form"   />
+                    <f:ajax  execute="select-comment" render="comment-form select-comment"/>
                 </h:commandButton>
                 <hr/>
+            </h:form>
+            
+            <h:form id="comment-form">
+                
                 <div class="btn-group">
-                    <h:commandButton action="#{commentController.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
-                    <h:commandButton action="#{commentController.next()}" value="Next" styleClass="btn btn-outline-dark"/>
+                    <h:commandButton styleClass="btn btn-dark" action="#{commentController.previous()}" value="Previous" >
+                        <f:ajax  execute="comment-form" render="comment-form" />
+                    </h:commandButton>
+                    <h:commandButton styleClass="btn btn-dark" action="#{commentController.next()}" value="Next" >
+                        <f:ajax  execute="comment-form" render="comment-form"   />
+                    </h:commandButton>
                 </div>
-                <br/><br/>
                 <hr/>
                 <div class="form-group">
                     <label>Arama Terimi : </label>
                     <h:inputText value="#{commentController.terim}"/>
                 </div>
+                <h:commandButton styleClass="btn btn-light" value="Ara" action="#{commentController.ara()}">
+                    <f:ajax  execute="comment-form" render="comment-form"/>
+                </h:commandButton>
+                <hr/>
                 
                 <h:dataTable value="#{commentController.read}" var="k">
                     <h:column>
@@ -54,10 +68,10 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">ADMINISTRATOR</f:facet>
-                        <h:commandButton action="#{commentController.updateForm(k)}" value="UPDATE">
-                            <f:ajax  execute="@this" render="comment-form"   />
+                        <h:commandButton styleClass="btn btn-light" action="#{commentController.updateForm(k)}" value="UPDATE">
+                            <f:ajax  execute="@this" render="select-comment"/>
                         </h:commandButton>
-                        <h:commandButton action="#{commentController.deleteForm(k)}" value="DELETE"/>
+                        <h:commandButton styleClass="btn btn-danger" action="#{commentController.deleteForm(k)}" value="DELETE"/>
 
                     </h:column>
                 </h:dataTable>

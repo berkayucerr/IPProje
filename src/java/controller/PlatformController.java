@@ -18,6 +18,9 @@ public class PlatformController implements Serializable{
     private int pageSize = 10;
     private int pageCount;
     private String terim;
+    public void ara(){
+        this.setPage(1);
+    }
     public void next() {
         if(this.page==this.getPageCount())
             this.page=1;
@@ -61,7 +64,7 @@ public class PlatformController implements Serializable{
     }
 
     public int getPageCount() {
-         this.pageCount = (int) Math.ceil(this.getDao().count() / (double) pageSize);
+         this.pageCount = (int) Math.ceil(this.getDao().count(this.getTerim()) / (double) pageSize);
         return pageCount;
     }
 
@@ -69,7 +72,7 @@ public class PlatformController implements Serializable{
         this.pageCount = pageCount;
     }
     public List<Platform> getRead() {
-        return this.getDao().read(terim,page,pageSize);
+        return this.getDao().read(this.getTerim(),page,pageSize);
     }
     public void updateForm(Platform u){
         this.entity = u;

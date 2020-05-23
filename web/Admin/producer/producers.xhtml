@@ -8,27 +8,37 @@
     <ui:define name="content">
 
         <div class="container">
-            <h:form id="producer-form">
+            <h:form id="select-producer">
                 <div class="form-group">
                     <label>Producer name :</label>
                     <h:inputText value="#{producerController.entity.producer_name}"/><br/>
                 </div>
-
-                <h:commandButton styleClass="btn btn-dark" value="Ekle" action="#{producerController.create()}">
-                    <f:ajax  execute="producer-form" render="producer-form"/>
+                <hr/>
+                <h:commandButton styleClass="btn btn-dark" value="Create" action="#{producerController.create()}">
+                    <f:ajax  execute="select-producer" render="producer-form select-producer"/>
                 </h:commandButton>
-                <h:commandButton value="Update" action="#{producerController.update()}">
-                    <f:ajax  execute="producer-form" render="producer-form"   />
+                <h:commandButton styleClass="btn btn-light" value="Update" action="#{producerController.update()}">
+                    <f:ajax  execute="select-producer" render="producer-form select-producer"/>
                 </h:commandButton>
                 <hr/>
+            </h:form>
+            <h:form id="producer-form">
+                <div class="btn-group">
+                    <h:commandButton action="#{producerController.previous()}" value="Previous" styleClass="btn btn-dark">
+                        <f:ajax  execute="producer-form" render="producer-form"/>
+                    </h:commandButton>
+                    <h:commandButton action="#{producerController.next()}" value="Next" styleClass="btn btn-dark">
+                        <f:ajax  execute="producer-form" render="producer-form"/>
+                    </h:commandButton>
+                </div><hr/>
                 <div class="form-group">
                     <label>Arama Terimi : </label>
                     <h:inputText value="#{producerController.terim}"/>
                 </div>
-                <div class="btn-group">
-                    <h:commandButton action="#{producerController.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
-                    <h:commandButton action="#{producerController.next()}" value="Next" styleClass="btn btn-outline-dark"/>
-                </div>
+                <h:commandButton value="Ara" action="#{producerController.ara()}">
+                    <f:ajax  execute="producer-form" render="producer-form"/>
+                </h:commandButton>
+                <hr/>
 
                 <h:dataTable value="#{producerController.read}" var="k">
                     <h:column>
@@ -41,12 +51,12 @@
                             #{k.producer_name}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">ADMINISTRATOR</f:facet>
-                        <h:commandButton action="#{producerController.updateForm(k)}" value="UPDATE">
-                            <f:ajax  execute="@this" render="producer-form"   />
+                        <f:facet name="header">ADMINISTRATION</f:facet>
+                        <h:commandButton styleClass="btn btn-light" action="#{producerController.updateForm(k)}" value="UPDATE">
+                            <f:ajax  execute="@this" render="select-producer"/>
                         </h:commandButton>
-                        <h:commandButton action="#{producerController.deleteForm(k)}" value="DELETE"/>
-                            
+                        <h:commandButton styleClass="btn btn-danger" action="#{producerController.deleteForm(k)}" value="DELETE"/>
+
                     </h:column>
                 </h:dataTable>
             </h:form>

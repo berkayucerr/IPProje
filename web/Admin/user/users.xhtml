@@ -8,7 +8,7 @@
     <ui:define name="content">
         <div class="container">
 
-            <h:form id="users-form">
+            <h:form id="select-users">
                 <div class="form-group">
                     <label>ad: </label>
                     <h:inputText value="#{userController.user.ad}"/><br/>
@@ -25,59 +25,68 @@
                     <label>sifre:  </label>
                     <h:inputText value="#{userController.user.sifre}"/><br/>
                 </div>
-                <div class="form-group">
-                    <label>admin: (1-0) </label>
-                    <h:inputText value="#{userController.user.admin}"/><br/>
+                <div class ="form-group">
+                    <label for ="YetkiSec">Yetki Sec</label>
+                    <h:selectOneMenu styleClass="custom-select" id="YetkiSec" value="#{userController.user.yetki}" converter="yetkiConverter">
+                        <f:selectItems value="#{userController.yetkiList}" var="Yetki" itemValue="#{Yetki}" itemLabel="#{Yetki.yetki}" />
+                    </h:selectOneMenu>
                 </div>
-
-                <h:commandButton value="Ekle" action="#{userController.create()}">
-                    <f:ajax  execute="users-form" render="users-form"/>
+                <h:commandButton styleClass="btn btn-dark"  value="Create" action="#{userController.create()}">
+                    <f:ajax  execute="select-users" render="users-form select-users"/>
                 </h:commandButton>
-                <h:commandButton value="Update" action="#{userController.update()}">
+                <h:commandButton styleClass="btn btn-light" value="Update" action="#{userController.update()}">
+                    <f:ajax  execute="select-users" render="users-form select-users"/>
+                </h:commandButton>
+                <hr/>
+            </h:form>
+
+            <h:form id="users-form">
+                <div class="btn-group">
+                    <h:commandButton styleClass="btn btn-dark" action="#{userController.ileri()}" value="Previous" >
+                        <f:ajax  execute="users-form" render="users-form"/>
+                    </h:commandButton>
+                    <h:commandButton styleClass="btn btn-dark" action="#{userController.geri()}" value="Next" >
+                        <f:ajax  execute="users-form" render="users-form"/>
+                    </h:commandButton>
+                </div>
+                <hr/>
+                <div class="form-group">
+                    <label>Arama Terimi : </label>
+                    <h:inputText value="#{userController.terim}"/>
+                </div>
+                <h:commandButton action="#{userController.ara()}" value="Ara">
                     <f:ajax  execute="users-form" render="users-form"/>
                 </h:commandButton>
                 <hr/>
-                <div class="btn-group">
-                    <h:commandButton action="#{userController.ileri()}" value="Previous" styleClass="btn btn-outline-dark"/>
-                    <h:commandButton action="#{userController.geri()}" value="Next" styleClass="btn btn-outline-dark"/>
-                </div>
-                <br/><br/>
-                <div class="form-group">
-                    <label>Arama Terimi : </label>
-                    <h:inputText value="#{userController.bul}"/>
-                </div>
-
                 <h:dataTable value="#{userController.userlist}" var="k">
                     <h:column>
                         <f:facet name="header">ID</f:facet>
                             #{k.user_id}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Name</f:facet>
+                        <f:facet name="header">Isim</f:facet>
                             #{k.ad}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Password</f:facet>
+                        <f:facet name="header">Soyisim</f:facet>
                             #{k.soyad}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Password</f:facet>
+                        <f:facet name="header">Mail Adresi</f:facet>
                             #{k.mail}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Admin</f:facet>
-                            #{k.getAdmin()}
+                        <f:facet name="header">Yetki Durumu</f:facet>
+                            #{k.yetki.yetki}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">ADMINISTRATOR</f:facet>
-                        <h:commandButton action="#{userController.updateForm(k)}" value="UPDATE">
-                            <f:ajax  execute="@this" render="users-form"/>
+                        <f:facet name="header">ADMINISTRATION</f:facet>
+                        <h:commandButton styleClass="btn btn-light" action="#{userController.updateForm(k)}" value="UPDATE">
+                            <f:ajax  execute="@this" render="select-users"/>
                         </h:commandButton>
-                        <h:commandButton action="#{userController.deleteForm(k)}" value="DELETE"/>
+                        <h:commandButton styleClass="btn btn-danger" action="#{userController.deleteForm(k)}" value="DELETE"/>
                     </h:column>
                 </h:dataTable>
-
-
             </h:form>
         </div>
     </ui:define>

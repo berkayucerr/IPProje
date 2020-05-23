@@ -17,6 +17,9 @@ public class ScoreController implements Serializable{
     private int pageSize = 10;
     private int pageCount;
     private String terim;
+    public void ara(){
+        this.setPage(1);
+    }
     public void next() {
         if(this.page==this.getPageCount())
             this.page=1;
@@ -32,7 +35,7 @@ public class ScoreController implements Serializable{
     }
     public void create() {
         this.getDao().create(entity);
-        this.entity=new Score();
+        this.clearForm();
     }
 
     public int getPage() {
@@ -52,7 +55,7 @@ public class ScoreController implements Serializable{
     }
 
     public int getPageCount() {
-          this.pageCount = (int) Math.ceil(this.getDao().count() / (double) pageSize);
+          this.pageCount = (int) Math.ceil(this.getDao().count(this.getTerim()) / (double) pageSize);
         return pageCount;
     }
 
@@ -60,7 +63,7 @@ public class ScoreController implements Serializable{
         this.pageCount = pageCount;
     }
     public List<Score> getRead() {
-        return this.getDao().read(terim,page,pageSize);
+        return this.getDao().read(this.getTerim(),page,pageSize);
     }
     
      public String islemIptal() {
@@ -90,6 +93,7 @@ public class ScoreController implements Serializable{
 
     public void update() {
         this.getDao().update(entity);
+        this.clearForm();
     }
     
     public Scoredao getDao() {

@@ -83,13 +83,22 @@ public class Producerdao extends DBConnection {
         }
          return list;
     }
-       public int count() {
+       public int count(String arananTerim) {
         int count=0;
         try {
-            Statement st = this.connect().createStatement();
-            ResultSet rs = st.executeQuery("select count(producer_id) as producer_count from producer");
+            String query = "select count(producer_id) as producer_count from producer ";
+            if (arananTerim != null) {
+                query += "where producer_name like ?";
+            }
+            PreparedStatement pst = connect().prepareStatement(query);
+
+             if (arananTerim != null) {
+                pst.setString(1, "%" + arananTerim + "%");
+            }
+            ResultSet rs = pst.executeQuery();
             rs.next();
-            count=rs.getInt("producer_count");
+            count = rs.getInt("producer_count");
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

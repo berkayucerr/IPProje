@@ -21,12 +21,19 @@
                             <h:link class="nav-link" value="Kategoriler" outcome="/front/kategoriyegore.xhtml"/>
                         </li>
                         <li class="nav-item active">
-                            <h:link  class="nav-link" value="Çıkış yap" outcome="/logout.xhtml"/>
+                            <h:link rendered="#{loginController.user.yetki.yetki_id==1}" class="nav-link" value="Admin Panel" outcome="/Admin/user/users.xhtml"/>
+                        </li>
+                        <li class="nav-item active">
+                            <h:link rendered="#{loginController.user.ad!=null}"  class="nav-link" value="Çıkış yap" outcome="/logout.xhtml"/>
+                        </li>
+                        <li class="nav-item active">
+                            <h:link rendered="#{loginController.user.ad==null}" class="nav-link" value="giris yap-kayit ol" outcome="/index.xhtml"/>
                         </li>
                     </ul>
                 </div>
             </nav>
             <h:form>
+                
                 <column>
                     <div class ="form-group">
                         <label>Comment :</label>
@@ -38,8 +45,10 @@
                             <f:selectItems value="#{gameController.cc.scorelist}" var="Score" itemValue="#{Score}" itemLabel="#{Score.score}" />
                         </h:selectOneMenu>
                     </div>
-                    <h:commandButton styleClass="btn btn-dark" value="Ekle" action="#{gameController.getxYorumekle()}"/>
+                    <h:commandButton rendered="#{loginController.user.ad!=null}" styleClass="btn btn-dark" value="Ekle" action="#{gameController.getxYorumekle()}"/>
+                    <h:commandButton rendered="#{loginController.user.ad==null}" styleClass="btn btn-primary" value="Yorum Yapabilmek İçin Kayit Yapman Veya Giriş Yapman Gerek :)" action="/index.xhtml"/>
                 </column>
+                
                 <column>
                     <h:dataTable styleClass="table table-striped" value="#{gameController.yorumGetir}" var="yorum">
                         <h:column>

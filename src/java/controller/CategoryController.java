@@ -17,6 +17,10 @@ public class CategoryController implements Serializable {
     private int pageSize = 10;
     private int pageCount;
     private String terim;
+    
+    public void ara(){
+        this.setPage(1);
+    }
     public void next() {
         if (this.page == this.getPageCount()) {
             this.page = 1;
@@ -50,7 +54,7 @@ public class CategoryController implements Serializable {
     }
 
     public int getPageCount() {
-        this.pageCount = (int) Math.ceil(this.getDao().count() / (double) pageSize);
+        this.pageCount = (int) Math.ceil(this.getDao().count(this.getTerim()) / (double) pageSize);
         return pageCount;
     }
 
@@ -77,7 +81,7 @@ public class CategoryController implements Serializable {
     }
 
     public List<Category> getRead() {
-        return this.getDao().read(terim,page, pageSize);
+        return this.getDao().read(this.getTerim(),page, pageSize);
     }
 
     public String getTerim() {
@@ -94,6 +98,7 @@ public class CategoryController implements Serializable {
 
     public void update() {
         this.getDao().update(entity);
+        this.clearForm();
     }
 
     public String delete() {
@@ -133,6 +138,7 @@ public class CategoryController implements Serializable {
 
     public void setEntity(Category entity) {
         this.entity = entity;
+        
     }
 
 }

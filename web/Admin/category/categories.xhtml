@@ -9,25 +9,40 @@
     <ui:define name="content">
 
         <div class="container">
+            <h:form id="select-category">
+                <div class="form-group">
+                    <label>Category name :</label>
+                    <h:inputText value="#{categoryController.entity.name}"/>
+                </div>
+                <hr/>
 
-            <h:form id="category-form">
-                <h:inputText value="#{categoryController.entity.name}"/>
-                <h:commandButton styleClass="btn btn-dark" value="Ekle" action="#{categoryController.create()}">
-                                    <f:ajax  execute="category-form" render="category-form"/>
+                <h:commandButton styleClass="btn btn-dark" value="Create" action="#{categoryController.create()}">
+                    <f:ajax  execute="select-category" render="select-category category-form"/>
                 </h:commandButton>
-                <h:commandButton value="Update" action="#{categoryController.update()}">
-                    <f:ajax  execute="category-form" render="category-form"   />
+
+                <h:commandButton styleClass="btn btn-light" value="Update" action="#{categoryController.update()}">
+                    <f:ajax  execute="select-category" render="select-category category-form"/>
                 </h:commandButton>
                 <hr/>
+            </h:form>
+
+            <h:form id="category-form">
                 <div class="btn-group">
-                    <h:commandButton action="#{categoryController.previous()}" value="Previous" styleClass="btn btn-outline-dark"/>
-                    <h:commandButton action="#{categoryController.next()}" value="Next" styleClass="btn btn-outline-dark"/>
+                    <h:commandButton styleClass="btn btn-dark" action="#{categoryController.previous()}" value="Previous" >
+                        <f:ajax  execute="category-form" render="category-form"/>
+                    </h:commandButton>
+                    <h:commandButton styleClass="btn btn-dark" action="#{categoryController.next()}" value="Next" >
+                        <f:ajax  execute="category-form" render="category-form"/>
+                    </h:commandButton>
                 </div>
                 <hr/>
                 <div class="form-group">
                     <label>Arama Terimi : </label>
                     <h:inputText value="#{categoryController.terim}"/>
                 </div>
+                <h:commandButton styleClass="btn btn-light" value="Ara" action="#{categoryController.ara()}">
+                    <f:ajax  execute="category-form" render="category-form"/>
+                </h:commandButton>
                 <h:dataTable value="#{categoryController.read}" var="k">
                     <h:column>
                         <f:facet name="header">ID</f:facet>
@@ -41,9 +56,9 @@
                     <h:column>
                         <f:facet name="header">ADMINISTRATOR</f:facet>
                         <h:commandButton styleClass="btn btn-light" action="#{categoryController.updateForm(k)}" value="UPDATE">
-                                            <f:ajax  execute="category-form" render="category-form"   />
+                            <f:ajax  execute="category-form" render="select-category"   />
                         </h:commandButton>
-                        <h:commandButton styleClass="btn btn-light" action="#{categoryController.deleteForm(k)}" value="DELETE"/>
+                        <h:commandButton styleClass="btn btn-danger" action="#{categoryController.deleteForm(k)}" value="DELETE"/>
                     </h:column>
                 </h:dataTable>
             </h:form>

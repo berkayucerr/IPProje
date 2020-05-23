@@ -8,15 +8,15 @@ public class User {
     private String ad;
     private String soyad;
     private String mail;
-    private int admin;
+    private Yetki yetki;
     private String sifre;
 
-    public User(int uye_id, String uye_ad, String uye_soyad, String uye_mail, int admin, String sifre) {
+    public User(int uye_id, String uye_ad, String uye_soyad, String uye_mail, Yetki yetki, String sifre) {
         this.user_id = uye_id;
         this.ad = uye_ad;
         this.soyad = uye_soyad;
         this.mail = uye_mail;
-        this.admin = admin;
+        this.yetki = yetki;
         this.sifre = sifre;
     }
 
@@ -55,12 +55,15 @@ public class User {
         this.mail = mail;
     }
 
-    public int getAdmin() {
-        return admin;
+    public Yetki getYetki() {
+        if(this.yetki==null){
+            this.yetki=new Yetki();
+        }
+        return yetki;
     }
 
-    public void setAdmin(int admin) {
-        this.admin = admin;
+    public void setYetki(Yetki yetki) {
+        this.yetki = yetki;
     }
 
     public String getSifre() {
@@ -74,12 +77,12 @@ public class User {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 83 * hash + this.user_id;
-        hash = 83 * hash + Objects.hashCode(this.ad);
-        hash = 83 * hash + Objects.hashCode(this.soyad);
-        hash = 83 * hash + Objects.hashCode(this.mail);
-        hash = 83 * hash + this.admin;
-        hash = 83 * hash + Objects.hashCode(this.sifre);
+        hash = 41 * hash + this.user_id;
+        hash = 41 * hash + Objects.hashCode(this.ad);
+        hash = 41 * hash + Objects.hashCode(this.soyad);
+        hash = 41 * hash + Objects.hashCode(this.mail);
+        hash = 41 * hash + Objects.hashCode(this.yetki);
+        hash = 41 * hash + Objects.hashCode(this.sifre);
         return hash;
     }
 
@@ -98,9 +101,6 @@ public class User {
         if (this.user_id != other.user_id) {
             return false;
         }
-        if (this.admin != other.admin) {
-            return false;
-        }
         if (!Objects.equals(this.ad, other.ad)) {
             return false;
         }
@@ -113,8 +113,18 @@ public class User {
         if (!Objects.equals(this.sifre, other.sifre)) {
             return false;
         }
+        if (!Objects.equals(this.yetki, other.yetki)) {
+            return false;
+        }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + "user_id=" + user_id + ", ad=" + ad + ", soyad=" + soyad + ", mail=" + mail + ", yetki=" + yetki + ", sifre=" + sifre + '}';
+    }
+
+    
 
     
 

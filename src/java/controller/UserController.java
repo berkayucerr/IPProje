@@ -1,7 +1,9 @@
 package controller;
 
 import dao.Userdao;
+import dao.YetkiDAO;
 import entity.User;
+import entity.Yetki;
 import java.io.Serializable;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
@@ -15,12 +17,16 @@ public class UserController implements Serializable {
     private List<User> userList;
     private Userdao userdao;
     private User user;
-    private String bul = "";
-   
+    private String terim = "";
+    private List<Yetki> yetkiList;
+    private YetkiDAO yetkidao;
     private int page = 1;
     private int pageSize = 10;
     private int pageCount;
 
+    public void ara(){
+        this.setPage(1);
+    }
    public void ileri(){
         if (this.page ==this.getPageCount()) 
             this.page=1;
@@ -51,7 +57,7 @@ public class UserController implements Serializable {
     }
 
     public int getPageCount() {
-        this.pageCount = (int) Math.ceil(this.getUserdao().count() / (double) pageSize);
+        this.pageCount = (int) Math.ceil(this.getUserdao().count(this.getTerim()) / (double) pageSize);
         return pageCount;
     }
 
@@ -97,12 +103,12 @@ public class UserController implements Serializable {
     }
 
     public List<User> getUserlist() {
-        this.userList = this.getUserdao().getKullanici(this.bul, page, pageSize);
+        this.userList = this.getUserdao().getKullanici(this.terim, page, pageSize);
         return userList;
     }
 
-    public void setUserlist(List<User> uyelist) {
-        this.userList = uyelist;
+    public void setUserlist(List<User> userList) {
+        this.userList = userList;
     }
 
     public Userdao getUserdao() {
@@ -113,8 +119,8 @@ public class UserController implements Serializable {
         return userdao;
     }
 
-    public void setUserdao(Userdao uyedao) {
-        this.userdao = uyedao;
+    public void setUserdao(Userdao userdao) {
+        this.userdao = userdao;
     }
 
     public User getUser() {
@@ -128,11 +134,31 @@ public class UserController implements Serializable {
         this.user = uye;
     }
 
-    public String getBul() {
-        return bul;
+    public String getTerim() {
+        return terim;
     }
 
-    public void setBul(String bul) {
-        this.bul = bul;
+    public void setTerim(String terim) {
+        this.terim = terim;
     }
+
+    public List<Yetki> getYetkiList() {
+        return this.getYetkidao().getYetki();
+    }
+
+    public void setYetkiList(List<Yetki> yetkiList) {
+        this.yetkiList = yetkiList;
+    }
+
+    public YetkiDAO getYetkidao() {
+        if(this.yetkidao==null){
+            this.yetkidao=new YetkiDAO();
+        }
+        return yetkidao;
+    }
+
+    public void setYetkidao(YetkiDAO yetkidao) {
+        this.yetkidao = yetkidao;
+    }
+    
 }

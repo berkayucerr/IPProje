@@ -55,16 +55,23 @@ public class Gamedao extends DBConnection {
         }
         return list;
     }
-    
-  
-
-    public int count() {
-        int count = 0;
+   
+    public int count(String arananTerim) {
+        int count=0;
         try {
-            Statement st = this.connect().createStatement();
-            ResultSet rs = st.executeQuery("select count(game_id) as game_count from game");
+            String query = "select count(game_id) as game_count from game ";
+            if (arananTerim != null) {
+                query += "where baslik like ?";
+            }
+            PreparedStatement pst = connect().prepareStatement(query);
+
+             if (arananTerim != null) {
+                pst.setString(1, "%" + arananTerim + "%");
+            }
+            ResultSet rs = pst.executeQuery();
             rs.next();
             count = rs.getInt("game_count");
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
