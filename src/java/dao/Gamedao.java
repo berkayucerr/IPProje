@@ -18,6 +18,7 @@ public class Gamedao extends DBConnection {
     private Categorydao categoryDao;
     private Platformdao platformDao;
     private Producerdao producerDao;
+    private DosyaDAO dosyaDao;
 
     public List<Game> read(String arananTerim,int page, int pageSize) {
         List<Game> list = new ArrayList<>();
@@ -44,9 +45,9 @@ public class Gamedao extends DBConnection {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Game temp = new Game(rs.getInt("game_id"), rs.getString("baslik"), rs.getString("aciklama"), rs.getString("vizyon_tarihi"));
-                temp.setProducer(producerBul(rs.getInt("producer_id")));
-                temp.setCategory(categoryBul(rs.getInt("category_id")));
-                temp.setDosya(dosyaBul(rs.getInt("dosya_id")));
+                temp.setProducer(this.getProducerDao().producerBul(rs.getInt("producer_id")));
+                temp.setCategory(this.getCategoryDao().categoryBul(rs.getInt("category_id")));
+                temp.setDosya(this.getDosyaDao().bul(rs.getInt("dosya_id")));
                 temp.setGame_platform(this.getPlatformDao().getGamePlatforms(temp.getGame_id()));
                 list.add(temp);
             }
@@ -85,9 +86,9 @@ public class Gamedao extends DBConnection {
             ResultSet rs = st.executeQuery("select * from game order by game_id asc");
             while (rs.next()) {
                 Game temp = new Game(rs.getInt("game_id"), rs.getString("baslik"), rs.getString("aciklama"), rs.getString("vizyon_tarihi"));
-                temp.setProducer(producerBul(rs.getInt("producer_id")));
-                temp.setCategory(categoryBul(rs.getInt("category_id")));
-                temp.setDosya(dosyaBul(rs.getInt("dosya_id")));
+                temp.setProducer(this.getProducerDao().producerBul(rs.getInt("producer_id")));
+                temp.setCategory(this.getCategoryDao().categoryBul(rs.getInt("category_id")));
+                temp.setDosya(this.getDosyaDao().bul(rs.getInt("dosya_id")));
                 temp.setGame_platform(this.getPlatformDao().getGamePlatforms(temp.getGame_id()));
                 list.add(temp);
             }
@@ -97,7 +98,7 @@ public class Gamedao extends DBConnection {
         }
         return list;
     }
-
+    //Kategoriye göre oyun getiriyor dolayısıyla gamedao içinde bulunuyor
     public List<Game> categoryrankingBul(Game id) {
         
         List<Game> gamelist = new ArrayList<>();
@@ -107,9 +108,9 @@ public class Gamedao extends DBConnection {
             
             while (rs.next()) {
                 Game temp = new Game(rs.getInt("game_id"), rs.getString("baslik"), rs.getString("aciklama"), rs.getString("vizyon_tarihi"));
-                temp.setProducer(producerBul(rs.getInt("producer_id")));
-                temp.setCategory(categoryBul(rs.getInt("category_id")));
-                temp.setDosya(dosyaBul(rs.getInt("dosya_id")));
+                temp.setProducer(this.getProducerDao().producerBul(rs.getInt("producer_id")));
+                temp.setCategory(this.getCategoryDao().categoryBul(rs.getInt("category_id")));
+                temp.setDosya(this.getDosyaDao().bul(rs.getInt("dosya_id")));
                 temp.setGame_platform(this.getPlatformDao().getGamePlatforms(temp.getGame_id()));
                 gamelist.add(temp);
             }
@@ -117,61 +118,6 @@ public class Gamedao extends DBConnection {
             System.out.println(ex.getMessage());
         }
         return gamelist;
-    }
-
-    public Category categoryBul(int id) {
-        Category k = null;
-        try {
-            Statement st = connect().createStatement();
-            ResultSet rs = st.executeQuery("select * from category where category_id=" + id);
-            rs.next();
-
-            k = new Category();
-            k.setId(rs.getInt("category_id"));
-            k.setName(rs.getString("category_name"));
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return k;
-    }
-
-    public Producer producerBul(int id) {
-        Producer k = null;
-        try {
-            Statement st = connect().createStatement();
-            ResultSet rs = st.executeQuery("select * from producer where producer_id=" + id);
-            rs.next();
-
-            k = new Producer();
-            k.setProducer_id(rs.getInt("producer_id"));
-            k.setProducer_name(rs.getString("producer_name"));
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-
-        return k;
-    }
-
-    public Dosya dosyaBul(int id) {
-        Dosya k = null;
-        try {
-            Statement st = connect().createStatement();
-            ResultSet rs = st.executeQuery("select * from dosya where dosya_id=" + id);
-            rs.next();
-
-            k = new Dosya();
-            k.setDosya_id(rs.getInt("dosya_id"));
-            k.setDosya_ismi(rs.getString("dosya_ismi"));
-            k.setDosya_konumu(rs.getString("dosya_konumu"));
-            k.setDosya_tipi(rs.getString("dosya_tipi"));
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-
-        return k;
     }
 
     public void update(Game game) {
@@ -245,6 +191,22 @@ public class Gamedao extends DBConnection {
             System.out.println(ex.getMessage());
         }
     }
+     public Game gameBul(int id) {
+        Game k = null;
+        try {
+            Statement st = connect().createStatement();
+            ResultSet rs = st.executeQuery("select * from game where game_id=" + id);
+            rs.next();
+            k = new Game();
+            k.setGame_id(rs.getInt("game_id"));
+            k.setBaslik(rs.getString("baslik"));
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return k;
+    }
 
     public Categorydao getCategoryDao() {
         if (categoryDao == null) {
@@ -267,4 +229,12 @@ public class Gamedao extends DBConnection {
         return platformDao;
     }
 
+    public DosyaDAO getDosyaDao() {
+        if(this.dosyaDao==null){
+            this.dosyaDao=new DosyaDAO();
+        }
+        return dosyaDao;
+    }
+
+    
 }

@@ -22,7 +22,7 @@
                     </h:selectOneMenu>
                 </div>
                 <hr/>
-                <h:commandButton value="Update" action="#{commentController.update()}">
+                <h:commandButton styleClass="btn btn-light" value="Update" action="#{commentController.update()}">
                     <f:ajax  execute="select-comment" render="comment-form select-comment"/>
                 </h:commandButton>
                 <hr/>

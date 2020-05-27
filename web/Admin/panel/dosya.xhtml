@@ -23,7 +23,7 @@
                         <label>Arama Terimi : </label>
                         <h:inputText value="#{dosyaController.terim}"/>
                     </div>
-                    <h:commandButton action="#{dosyaController.ara()}" value="Ara">
+                    <h:commandButton styleClass="btn btn-light" action="#{dosyaController.ara()}" value="Ara">
                         <f:ajax  execute="dosya-form" render="dosya-form"/>
                     </h:commandButton>
                     <h:dataTable styleClass="table table-striped" value="#{dosyaController.dosyaList}" var="d">

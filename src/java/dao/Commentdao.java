@@ -13,6 +13,8 @@ import util.DBConnection;
 
 public class Commentdao extends DBConnection {
 
+    private Scoredao scoreDao;
+    private Gamedao gameDao;
     public void create(Comment u) {
         try {
             PreparedStatement pst = connect().prepareStatement("insert into comments (comment,score_id,game_id) values(?,?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -71,8 +73,8 @@ public class Commentdao extends DBConnection {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Comment temp = new Comment(rs.getInt("comment_id"), rs.getString("comment"));
-                temp.setScore(scoreBul(rs.getInt("score_id")));
-                temp.setGame(gameBul(rs.getInt("game_id")));
+                temp.setScore(this.getScoreDao().scoreBul(rs.getInt("score_id")));
+                temp.setGame(this.getGameDao().gameBul(rs.getInt("game_id")));
                 list.add(temp);
             }
         } catch (Exception e) {
@@ -80,8 +82,6 @@ public class Commentdao extends DBConnection {
         }
         return list;
     }
-
-    
 
     public List<Comment> yorumgetir(Game g) {
         List<Comment> list = new ArrayList<>();
@@ -91,8 +91,8 @@ public class Commentdao extends DBConnection {
             ResultSet rs = st.executeQuery("select * from comments where game_id=" + g.getGame_id());
             while (rs.next()) {
                 Comment temp = new Comment(rs.getInt("comment_id"), rs.getString("comment"));
-                temp.setScore(scoreBul(rs.getInt("score_id")));
-                temp.setGame(gameBul(rs.getInt("game_id")));
+                temp.setScore(this.getScoreDao().scoreBul(rs.getInt("score_id")));
+                temp.setGame(this.getGameDao().gameBul(rs.getInt("game_id")));
                 list.add(temp);
             }
         } catch (Exception e) {
@@ -123,38 +123,21 @@ public class Commentdao extends DBConnection {
         return count;
     }
 
-    public Score scoreBul(int id) {
-        Score k = null;
-        try {
-            Statement st = connect().createStatement();
-            ResultSet rs = st.executeQuery("select * from score where score_id=" + id);
-            rs.next();
-            k = new Score();
-            k.setScore_id(rs.getInt("score_id"));
-            k.setScore(rs.getString("game_score"));
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+    public Gamedao getGameDao() {
+        if(this.gameDao==null){
+            this.gameDao=new Gamedao();
         }
-
-        return k;
+        return gameDao;
     }
 
-    public Game gameBul(int id) {
-        Game k = null;
-        try {
-            Statement st = connect().createStatement();
-            ResultSet rs = st.executeQuery("select * from game where game_id=" + id);
-            rs.next();
-            k = new Game();
-            k.setGame_id(rs.getInt("game_id"));
-            k.setBaslik(rs.getString("baslik"));
+   
 
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+    public Scoredao getScoreDao() {
+        if(this.scoreDao==null){
+            this.scoreDao=new Scoredao();
         }
-
-        return k;
+        return scoreDao;
     }
+
 
 }
