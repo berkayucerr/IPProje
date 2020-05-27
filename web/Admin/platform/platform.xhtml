@@ -38,7 +38,7 @@
                     <label>Arama Terimi : </label>
                     <h:inputText value="#{platformController.terim}"/>
                 </div>
-                <h:commandButton action="#{platformController.ara()}" value="Ara">
+                <h:commandButton styleClass="btn btn-light" action="#{platformController.ara()}" value="Ara">
                     <f:ajax  execute="platform-form" render="platform-form"/>
                 </h:commandButton>
                 <hr/>

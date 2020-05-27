@@ -54,7 +54,7 @@
                     <label>Arama Terimi : </label>
                     <h:inputText value="#{userController.terim}"/>
                 </div>
-                <h:commandButton action="#{userController.ara()}" value="Ara">
+                <h:commandButton styleClass="btn btn-light" action="#{userController.ara()}" value="Ara">
                     <f:ajax  execute="users-form" render="users-form"/>
                 </h:commandButton>
                 <hr/>

@@ -35,7 +35,7 @@
                     <label>Arama Terimi : </label>
                     <h:inputText value="#{producerController.terim}"/>
                 </div>
-                <h:commandButton value="Ara" action="#{producerController.ara()}">
+                <h:commandButton styleClass="btn btn-light" value="Ara" action="#{producerController.ara()}">
                     <f:ajax  execute="producer-form" render="producer-form"/>
                 </h:commandButton>
                 <hr/>

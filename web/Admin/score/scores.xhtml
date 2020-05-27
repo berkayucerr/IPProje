@@ -34,7 +34,7 @@
                     <label>Arama Terimi : </label>
                     <h:inputText value="#{scoreController.terim}"/>
                 </div>
-                <h:commandButton action="#{scoreController.ara()}" value="Ara">
+                <h:commandButton styleClass="btn btn-light" action="#{scoreController.ara()}" value="Ara">
                     <f:ajax  execute="score-form" render="score-form"/>
                 </h:commandButton>
                 <hr/>
